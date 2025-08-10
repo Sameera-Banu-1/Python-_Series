@@ -1,0 +1,72 @@
+# calculator_oop.py  Here’s my Calculator project using OOP's (Object-Oriented Programming) in Python.
+class Calculator:
+    def __init__(self):
+        self.operations = {
+            1: ("Addition", self.addition),
+            2: ("Subtraction", self.subtraction),
+            3: ("Multiplication", self.multiplication),
+            4: ("Division", self.division)
+        }
+
+    def addition(self, a, b):
+        return a + b
+
+    def subtraction(self, a, b):
+        return a - b
+
+    def multiplication(self, a, b):
+        return a * b
+
+    def division(self, a, b):
+        if b == 0:
+            return "Error: Division by zero is not allowed."
+        return a / b
+
+    def display_menu(self):
+        print("\n***************** CALCULATOR ******************")
+        for key, (name, _) in self.operations.items():
+            print(f" {key}. {name}")
+        print(" 5. Exit")
+
+    def get_numbers(self):
+        """Safely get two numbers from user"""
+        while True:
+            try:
+                a = float(input("Enter First Number : "))
+                b = float(input("Enter Second Number : "))
+                return a, b
+            except ValueError:
+                print("Invalid input! Please enter numeric values.")
+
+    def run(self):
+        """Main loop of the calculator"""
+        while True:
+            self.display_menu()
+            try:
+                choice = int(input("What You Want to Do? : "))
+            except ValueError:
+                print("Invalid choice! Please enter a number.")
+                continue
+
+            if choice == 5:
+                print("Thank you for using the Calculator. See You Again!")
+                break
+
+            if choice not in self.operations:
+                print("Oops! Invalid choice. Please try again.")
+                continue
+
+            operation_name, operation_func = self.operations[choice]
+            print(f"You Selected {operation_name}")
+            a, b = self.get_numbers()
+            result = operation_func(a, b)
+
+            if isinstance(result, float):
+                print(f"The {operation_name} of {a} and {b} is {result}")
+            else:
+                print(result)
+
+
+if __name__ == "__main__":
+    calc = Calculator()
+    calc.run()
